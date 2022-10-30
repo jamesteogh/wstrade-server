@@ -1,4 +1,5 @@
-import PostStockTracker from '../models/postMessage.js';
+// import Model
+import PostStockTracker from '../models/postStockModel.js';
 
 export const getPosts = async (req, res) => {
     try {
