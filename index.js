@@ -6,6 +6,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 const app = express();
+const dbName = "Wall_Street_Trade"
 
 // app.use(bodyParser.json({extended: true}));
 // app.use(bodyParser.urlencoded({extended: true}));
@@ -21,7 +22,7 @@ const port = process.env.PORT || 5000;
 const CONNECTION_URL = `mongodb+srv://jamesteogh:h5yjq9hd@generalassembly.wwul4.mongodb.net/?retryWrites=true&w=majority`
 
 mongoose
-.connect(CONNECTION_URL)
+.connect(CONNECTION_URL, { dbName: dbName })
 .then(()=>{
     console.log('db connected successfully!')
 })
