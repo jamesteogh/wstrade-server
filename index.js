@@ -1,13 +1,16 @@
 import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config()
-import userRouter from './router/users.js';
-import postRouter from './router/posts.js'
+
 import express from 'express';
 import mongoose from 'mongoose';
+
 import cors from 'cors';
 const app = express();
 const port = process.env.PORT || 5000;
 const dbName = "Wall_Street_Trade"
+
+import userRouter from './router/users.js';
+import postRouter from './router/posts.js'
 
 // app.use(bodyParser.json({extended: true}));
 // app.use(bodyParser.urlencoded({extended: true}));
