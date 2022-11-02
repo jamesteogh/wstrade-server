@@ -23,3 +23,14 @@ export const createPost = async (req, res) => {
     }
     
 }
+
+export const deletePost = async (req, res) => {
+    const { symbol } = req.query;
+    
+    try {
+    const newStockFav = await PostStockTracker.findOneAndDelete({ symbol });
+    res.status(200).json({ status: 200, data: {}, error: 'deleted' });
+    } catch (error) {
+    res.status(409).json({ message: error.message });
+    }
+};
