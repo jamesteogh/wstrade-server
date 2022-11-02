@@ -1,28 +1,24 @@
 import mongoose from 'mongoose';
 
 const postSchema = mongoose.Schema({
-    ticker: {
+    symbol: {
         type: String,
-        required: [true, 'Please input stock ticker'],
-        unique: true
+        // required: [true],
     },
-    sharesNum: {
-        type: Number,
-        default: 0
+    shortName: String,
+    userId: {
+        type: mongoose.Schema.ObjectId,
+        required: [true],
     },
-    buyPrice: Number,
-    currentVal: {
-        type: Number,
-        default: 0
+    regularMarketChange: {
+        type: Object,
     },
-    gainLoss: {
-        type: Number,
-        default: 0
+    regularMarketPrice: {
+        type: Object,
     },
-    dailyChange: Number,
     createdAt: {
         type: Date,
-        default: new Date()
+        default: new Date(),
     },
 })
 
