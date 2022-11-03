@@ -9,60 +9,52 @@ export const login = async (req, res) => {
     try {
         let user = await User.findOne({ email });
         if (!user) {
-        return res.status(401).json({
-            success: false,
-            data: {},
-            errors: 'Invalid Credentials',
-        });
+            return res.status(401).json({
+                success: false,
+                data: {},
+                errors: 'Invalid Credentials',
+            });
         }
 
-        // Match passord
+        // Match password
 
         if (user.password !== password) {
-        return res.status(401).json({
-            success: false,
-            data: {},
-            errors: 'Invalid Credentials',
-        });
+            return res.status(401).json({
+                success: false,
+                data: {},
+                errors: 'Invalid Credentials',
+            });
         }
-
         // Assign Token
         const payload = {
-        user: {
-            id: user.id,
-        },
+            user: {
+                id: user.id,
+            },
         };
 
-        jwt.sign(
-        payload,
-        'my-secret',
-        {
-            expiresIn: 360000,
-        },
-        (err, token) => {
-            if (err) throw err;
-            res.status(200).json({ success: true, data: user, token });
-        }
+        jwt.sign(payload,'my-secret',{expiresIn: 360000,},
+            (err, token) => {
+                if (err) throw err;
+                res.status(200).json({ success: true, data: user, token });
+            }
         );
     } catch (err) {
-        res
-        .status(400)
-        .json({ success: false, data: {}, errors: { msg: [err.message] } });
-    }
-    };
+        res.status(400).json({ success: false, data: {}, errors: { msg: [err.message] } });
+        }
+};
 
-    export const createuser = async (req, res) => {
+export const createuser = async (req, res) => {
     const { email, password, name } = req.body;
 
     try {
         let user = await User.findOne({ email });
 
         if (user) {
-        return res.json({
-            success: false,
-            data: {},
-            errors: 'User already exists',
-        });
+            return res.json({
+                success: false,
+                data: {},
+                errors: 'User already exists',
+            });
         }
 
         const newUser = new User(req.body);
@@ -70,21 +62,16 @@ export const login = async (req, res) => {
 
         // Assign Token
         const payload = {
-        user: {
-            id: newUser.id,
-        },
+            user: {
+                id: newUser.id,
+            },
         };
 
-        jwt.sign(
-        payload,
-        'my-secret',
-        {
-            expiresIn: 360000,
-        },
-        (err, token) => {
-            if (err) throw err;
-            res.status(200).json({ success: true, data: newUser, token });
-        }
+        jwt.sign(payload,'my-secret',{expiresIn: 360000,},
+            (err, token) => {
+                if (err) throw err;
+                res.status(200).json({ success: true, data: newUser, token });
+            }
         );
     } catch (error) {
         res.status(200).json({ success: true, data: {}, error: error.message });
