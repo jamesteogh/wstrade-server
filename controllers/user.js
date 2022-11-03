@@ -8,11 +8,12 @@ export const login = async (req, res) => {
 
     try {
         let user = await User.findOne({ email });
+        console.log(user);
         if (!user) {
             return res.status(401).json({
                 success: false,
                 data: {},
-                errors: 'Invalid Credentials',
+                error: 'Invalid Credentials',
             });
         }
 
@@ -22,7 +23,7 @@ export const login = async (req, res) => {
             return res.status(401).json({
                 success: false,
                 data: {},
-                errors: 'Invalid Credentials',
+                error: 'Invalid Credentials',
             });
         }
         // Assign Token
@@ -39,8 +40,11 @@ export const login = async (req, res) => {
             }
         );
     } catch (err) {
-        res.status(400).json({ success: false, data: {}, errors: { msg: [err.message] } });
-        }
+        if (err.name === 'ValidationError') {
+            const message = Object.values(err.errors).map((val) => val.message);
+            res.status(400).json({ success: false, data: {}, error: message });
+        }        
+    }
 };
 
 export const createuser = async (req, res) => {
@@ -53,7 +57,7 @@ export const createuser = async (req, res) => {
             return res.json({
                 success: false,
                 data: {},
-                errors: 'User already exists',
+                error: 'User already exists',
             });
         }
 
@@ -74,6 +78,10 @@ export const createuser = async (req, res) => {
             }
         );
     } catch (error) {
-        res.status(200).json({ success: true, data: {}, error: error.message });
+        if (error.name === 'ValidationError') {
+            const message = Object.values(error.errors).map((val) => val.message);
+    
+            res.status(400).json({ success: false, data: {}, error: message });
+        }
     }
 };
