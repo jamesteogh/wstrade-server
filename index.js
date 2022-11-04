@@ -26,7 +26,6 @@ app.get("/", (req, res) => {
 
 const CONNECTION_URL = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PW}@${process.env.MONGO_HOST}?retryWrites=true&w=majority`
 
-
 mongoose
 .connect(CONNECTION_URL, { dbName })
 .then(()=>{
